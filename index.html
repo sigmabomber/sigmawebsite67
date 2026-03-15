@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Förbudet — Kampen om alkoholen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1a1208;
+      --paper: #f5edd8;
+      --aged: #e8d9b8;
+      --sepia: #c9a96e;
+      --deep: #6b3a1f;
+      --accent: #8b1a1a;
+      --muted: #7a6a52;
+      --gold: #c8a84b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 2rem 2rem 1rem;
+      text-align: center;
+      background: var(--aged);
+    }
+    .masthead::before {
+      content: '';
+      display: block;
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      padding: 3px 0;
+      margin-bottom: 0.8rem;
+    }
+    .masthead-kicker {
+      font-size: 0.78rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .masthead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin: 0.2rem 0;
+    }
+    .masthead-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--deep);
+      margin-bottom: 0.5rem;
+    }
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.4rem 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-top: 1px solid var(--ink);
+      margin-top: 0.6rem;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--ink);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--gold);
+    }
+    nav a {
+      color: var(--paper);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.2rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover { background: var(--deep); color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(139,26,26,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 50%, rgba(107,58,31,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-year {
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .hero h1 em {
+      display: block;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.58em;
+      color: var(--sepia);
+    }
+    .hero-lead {
+      max-width: 680px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      color: rgba(245,237,216,0.82);
+      line-height: 1.8;
+      position: relative;
+    }
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      color: var(--gold);
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .hero-divider::before, .hero-divider::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    /* MAIN */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* SECTIONS */
+    .section-block {
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--sepia);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .section-block.visible { opacity: 1; transform: translateY(0); }
+    .section-block:last-child { border-bottom: none; }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .section-title span { font-style: italic; font-weight: 400; color: var(--deep); }
+    .title-rule { width: 60px; height: 3px; background: var(--accent); margin: 1rem 0 2.5rem; }
+
+    /* GRID */
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+    }
+    @media (max-width: 720px) { .article-grid { grid-template-columns: 1fr; } }
+
+    .article-body p {
+      margin-bottom: 1.2em;
+      text-align: justify;
+      hyphens: auto;
+    }
+    .article-body p:first-of-type::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 4em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.75;
+      margin: 0.05em 0.08em 0 0;
+      color: var(--accent);
+    }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.5rem;
+      margin: 2.5rem 0;
+      background: rgba(201,169,110,0.12);
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      color: var(--deep);
+      margin: 0 !important;
+      text-align: left !important;
+    }
+    .pull-quote p::first-letter { all: unset !important; font-size: inherit !important; }
+    .pull-quote cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* TIMELINE */
+    .timeline { position: relative; padding-left: 2rem; margin: 2.5rem 0; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--sepia));
+    }
+    .timeline-item { position: relative; margin-bottom: 2rem; padding-left: 1rem; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.65rem; top: 0.45em;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--paper);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .timeline-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .timeline-event { font-size: 0.95rem; }
+
+    /* FACT BOX */
+    .fact-box {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2rem 2.5rem;
+      margin: 2.5rem 0;
+      position: relative;
+    }
+    .fact-box::before {
+      content: '★';
+      position: absolute;
+      top: -0.7em; left: 2rem;
+      font-size: 1.4rem;
+      color: var(--gold);
+      background: var(--ink);
+      padding: 0 0.3em;
+    }
+    .fact-box h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .fact-box ul { list-style: none; padding: 0; }
+    .fact-box ul li {
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(245,237,216,0.15);
+      font-size: 0.95rem;
+      color: rgba(245,237,216,0.88);
+    }
+    .fact-box ul li:last-child { border-bottom: none; }
+    .fact-box ul li strong { color: var(--gold); }
+
+    /* ERA BANNER */
+    .era-banner {
+      background: var(--deep);
+      color: var(--paper);
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .era-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.07) 10px, rgba(0,0,0,0.07) 11px);
+    }
+    .era-banner h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      position: relative;
+      margin-bottom: 0.6rem;
+    }
+    .era-banner p {
+      font-style: italic;
+      color: rgba(245,237,216,0.75);
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--sepia);
+      border: 1px solid var(--sepia);
+      margin: 3rem 0;
+    }
+    @media (max-width: 600px) { .stats-row { grid-template-columns: 1fr; } }
+    .stat-cell { background: var(--aged); padding: 2rem 1.5rem; text-align: center; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ORNAMENT */
+    .ornament { text-align: center; color: var(--sepia); font-size: 1.4rem; margin: 2.5rem 0; letter-spacing: 0.5em; }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      color: rgba(245,237,216,0.6);
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      border-top: 3px double var(--gold);
+    }
+    footer p { margin: 0.3rem 0; }
+    footer strong { color: var(--gold); }
+
+    /* SCROLL BAR */
+    .scroll-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--accent);
+      z-index: 999;
+      width: 0;
+      transition: width 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-bar" id="scrollBar"></div>
+
+<header class="masthead">
+  <p class="masthead-kicker">Historisk dokumentation &nbsp;·&nbsp; Alkohol &amp; samhälle</p>
+  <h1 class="masthead-title">FÖRBUDET</h1>
+  <p class="masthead-subtitle">Kampen om alkoholen — från förbud till frihet</p>
+  <div class="masthead-meta">
+    <span>1800–1955</span>
+    <span>En historisk granskning</span>
+    <span>Sverige &amp; USA</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#bakgrund">Bakgrund</a>
+  <a href="#kampforbudet">Kampen för förbudet</a>
+  <a href="#konsekvenser">Konsekvenser</a>
+  <a href="#motstand">Motstånd</a>
+  <a href="#avskaffandet">Avskaffandet</a>
+  <a href="#arv">Arvet</a>
+</nav>
+
+<div class="hero">
+  <p class="hero-year">1920 — 1933</p>
+  <h1>
+    Nykterhetens tidevarv
+    <em>och stridens lågor som förändrade en nation</em>
+  </h1>
+  <p class="hero-lead">
+    Förbud mot alkohol var inte bara en lag — det var ett kulturkrig. En rörelse som reste sig ur kyrkosalar och fabrikskorridorer, nådde världens mäktigaste parlament, och slutligen kollapsade under tyngden av sina egna motsägelser.
+  </p>
+  <div class="hero-divider">✦</div>
+</div>
+
+<main>
+
+  <section class="section-block" id="bakgrund">
+    <p class="section-eyebrow">Kapitel I</p>
+    <h2 class="section-title">Rötterna till en <span>rörelse</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-grid">
+      <div class="article-body">
+        <p>Under 1800-talets senare hälft spred sig ett växande missnöje med alkoholens roll i samhället. I industrialismens spår hade superi blivit ett utbrett socialt problem. Arbetarfamiljer slukades av fattigdom, hustrur misshandlades och barn svalt — allt knutet till mannens drickande. Ur detta kaos växte en av historiens mäktigaste moraliska rörelser fram.</p>
+        <p>I Sverige organiserades nykterhetsrörelsen tidigt. Ordenssällskap som Godtemplarna, grundade i USA men snabbt spridda över hela Skandinavien, samlade hundratusentals medlemmar. Man predikade total avhållsamhet — inte bara måttlighet — och använde sig av eder, broderskapssymboler och en nästan religiös retorik för att förstärka sina budskap.</p>
+        <p>Parallellt, på den andra sidan Atlanten, samlade den amerikanska rörelsen Women's Christian Temperance Union (WCTU) miljontals kvinnor bakom kravet på ett nationellt förbud. Deras slagord — <em>"Hem, Kyrka och Nation"</em> — förenade religiositet med nationalistisk retorik i en kraftfull kombination.</p>
+      </div>
+      <div class="article-body">
+        <div class="pull-quote">
+          <p>"Rummet förstör mer hem än kriget — och med statens välsignelse."</p>
+          <cite>— Frances Willard, WCTU, 1880-talet</cite>
+        </div>
+        <p>Nykterhetsrörelsen var inte homogen. Den rymde fromma metodister och radikala socialister, borgerliga reformatörer och arbetarrörelsens aktivister. Det som förenade dem var övertygelsen att alkoholen var en strukturell orsak till samhällsproblem — inte ett symptom, utan en sjukdom i sig.</p>
+        <p>I Sverige ledde detta till folkomröstningar, kommunala förbud och till slut den nationella folkomröstning 1922 där frågan om totalt förbud ställdes på sin spets. Med knapp marginal föll förbudet — en utgång som förändrade den svenska politikens riktning i generationer.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <p class="timeline-year">1830-tal</p>
+            <p class="timeline-event">Organiserade nykterhetsföreningar bildas i USA och Sverige</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1874</p>
+            <p class="timeline-event">WCTU grundas i Ohio, USA — snart världens största kvinnoorganisation</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1893</p>
+            <p class="timeline-event">Anti-Saloon League bildas — den mest politiskt effektiva lobbygruppen i USA:s historia</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-cell">
+      <span class="stat-number">2M+</span>
+      <p class="stat-label">Godtemplarmedlemmar i Sverige på höjdpunkten</p>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">18:e</span>
+      <p class="stat-label">Tillägget till USA:s konstitution som förbjöd alkohol (1919)</p>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">49%</span>
+      <p class="stat-label">Röstade för totalförbud i Sverige 1922</p>
+    </div>
+  </div>
+
+  <section class="section-block" id="kampforbudet">
+    <p class="section-eyebrow">Kapitel II</p>
+    <h2 class="section-title">Kampen för <span>förbudet</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-grid">
+      <div class="article-body">
+        <p>Anti-Saloon League i USA var ett mästerverk i politisk organisering. De varken bildade ett eget parti eller kampanjade för enskilda politiker — de stödde helt enkelt den kandidat, oavsett parti, som röstade rätt i alkoholfrågan. Denna strategi visade sig oövervinnerlig.</p>
+        <p>Den 16 januari 1919 ratificerades det 18:e tillägget till den amerikanska konstitutionen, och ett år senare trädde Volstead Act i kraft. Tillverkning, försäljning och transport av alkohol med ett alkoholinnehåll över 0,5% blev olagligt i hela USA. Jublet bland nykterhetsivrarna var enormt.</p>
+        <p>I Sverige följdes en annan väg. Bratt-systemet, uppfunnet av läkaren Ivan Bratt, introducerade ransoneringsboken — den berömda <em>motboken</em>. Varje vuxen man tilldelades en bok som begränsade hur mycket sprit som fick köpas per månad. Systemet var ett typiskt svenskt kompromissalternativ: kontroll utan totalt förbud.</p>
+      </div>
+      <div class="article-body">
+        <p>Förespråkarna för förbudet använde sig av ett rikt bildspråk och kraftfull retorik. Krogen framställdes som ett monster som slukar familjer. Bryggeristen avbildades som en girigt flin demon. Barn användes flitigt i propagandan — oskyldiga offer för fädernas laster.</p>
+        <div class="fact-box">
+          <h4>Argument för förbudet</h4>
+          <ul>
+            <li><strong>Socialt:</strong> Minskat familjevåld och barnfattigdom</li>
+            <li><strong>Ekonomiskt:</strong> Mer pengar stannar i hemmet, ökad produktivitet</li>
+            <li><strong>Moraliskt:</strong> Alkohol är synden gjord flytande</li>
+            <li><strong>Medicinskt:</strong> Alkoholism är en sjukdom — förbudet botar samhället</li>
+            <li><strong>Nationellt:</strong> En nykter nation är en stark nation</li>
+          </ul>
+        </div>
+        <p>Under första världskriget fick nykterhetsrörelsen oväntat stöd: det var omoraliskt att använda spannmål till brännvin när soldater svalt i skyttegravarna. Patriotism och nykterhet flätades samman till en oemotståndlig argumentation.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="era-banner">
+    <h2>Förbudsårens USA: 1920–1933</h2>
+    <p>Tretton år av olaglighet, gangsters och hemliga krogar — konsekvenserna av ett förbud som gick för långt</p>
+  </div>
+
+  <section class="section-block" id="konsekvenser">
+    <p class="section-eyebrow">Kapitel III</p>
+    <h2 class="section-title">Det förbudets <span>skuggsida</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-grid">
+      <div class="article-body">
+        <p>Förbudet fick oavsedda konsekvenser av häpnadsväckande slag. Istället för att utplåna alkoholen skapade det en svart marknad av episka proportioner. Den organiserade brottsligheten, som tidigare levt på prostitution och spel, fick en ny och oslagbar inkomstkälla.</p>
+        <p>Al Capone i Chicago, Lucky Luciano i New York — kriminella imperier byggdes på sprit. Den olagliga alkoholen, smugglad från Kanada eller destillerad i hemliga anläggningar, flödade in i städernas <em>speakeasies</em> — hemliga barer som paradoxalt nog lockade fler kunder än de gamla krögarna.</p>
+        <p>Våldet exploderade. Gängkrig om territorier krävde hundratals liv. Polisen korrumperades i massiv skala — en kvartalslön räckte inte till det som en gangster betalade för en månads tystnad. Det federala systemets förtroende urholkades systematiskt.</p>
+      </div>
+      <div class="article-body">
+        <div class="pull-quote">
+          <p>"Förbudet har gjort ingenting annat än att förvandla hela nationens vana att dricka öl och vin till att dricka whiskey och gin."</p>
+          <cite>— Franklin D. Roosevelt, ca 1932</cite>
+        </div>
+        <p>Ännu farligare var den okontrollerade kvaliteten. Hembränd sprit, ibland blandad med industrialkohol, dödade och blindade drickare i tusental. Staten hade, i sin strävan att stoppa alkohol, blivit indirekt ansvarig för dess farligaste form.</p>
+        <p>I Sverige undveks de värsta utloppen tack vare motbokssystemet. Men systemet skapade egna absurditeter: män registrerade fiktiva yrken för att få högre ransoner, och den illegala hembränningen blomstrade på landsbygden.</p>
+        <div class="timeline">
+          <div class="timeline-item">
+            <p class="timeline-year">1920</p>
+            <p class="timeline-event">Volstead Act träder i kraft i USA — förbudet börjar</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1922</p>
+            <p class="timeline-event">Sverige röstar nej till totalförbud — motboken fortsätter</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1929</p>
+            <p class="timeline-event">Valentinsmassakern: Al Capones gangsters mördar rivaler i Chicago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="motstand">
+    <p class="section-eyebrow">Kapitel IV</p>
+    <h2 class="section-title">Röster mot <span>förbudet</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-grid">
+      <div class="article-body">
+        <p>Motståndet mot förbudet tog sig många former. I USA organiserades det under det talande namnet <em>Association Against the Prohibition Amendment</em> (AAPA), som fick stöd av industrialister, jurister och en växande skara av desillusionerade medborgare som sett vad förbudet faktiskt åstadkommit.</p>
+        <p>Det mest kraftfulla motargumentet var pragmatiskt: förbudet fungerade inte. Det minskade inte drickandet — det drev det under jord. Det minskade inte våldet — det organiserade det. Det minskade inte korruptionen — det skapade ny. Varje år av förbudet producerade nya bevis mot sin egen effektivitet.</p>
+        <p>Den stora depressionen från 1929 lade till ett ekonomiskt argument som var svårt att avvisa: en laglig alkoholindustri skulle kunna skapa hundratusentals jobb och ge staten en välbehövlig skatteintäkt. I en tid av massarbetslöshet var detta inte ett litet argument.</p>
+      </div>
+      <div class="article-body">
+        <div class="fact-box">
+          <h4>Argument mot förbudet</h4>
+          <ul>
+            <li><strong>Frihet:</strong> Staten har inte rätt att diktera vad vuxna dricker</li>
+            <li><strong>Effektivitet:</strong> Förbudet minskade inte missbruket, det omfördelade det</li>
+            <li><strong>Kriminalitet:</strong> Förbudet skapade organiserad brottslighet i historisk skala</li>
+            <li><strong>Ekonomi:</strong> Alkoholskatter finansierar välfärden</li>
+            <li><strong>Rättsstat:</strong> Omöjliga lagar urholkar respekten för alla lagar</li>
+          </ul>
+        </div>
+        <p>I Sverige var motståndet mer återhållsamt men inte frånvarande. Många inom arbetarrörelsen såg motboken som klassförtryck: rika kunde köpa sprit på restauranger och läkare kunde förskriva den medicinsk — de fattiga fick böja sig under statens ransonering.</p>
+        <p>Den liberala pressen argumenterade att förbudet var paternalism av värsta sort — en politisk elit som bestämde vad det enkla folket fick njuta av. Individens rätt att fatta egna beslut stod mot kollektivets rätt att skydda sig självt.</p>
+      </div>
+    </div>
+    <div class="ornament">— ✦ ✦ ✦ —</div>
+    <div class="article-body" style="max-width:780px; margin:0 auto;">
+      <p>En kulturell dimension av motståndet fick aldrig fullt erkännande i sin tid: bryggeriet, vinkällaren och puben var inte bara distributionskanaler för alkohol — de var samlingspunkter, platser för demokratisk diskussion, politisk organisering och social utjämning. Att förbjuda dem var att förbjuda en form av offentlig kultur.</p>
+    </div>
+  </section>
+
+  <section class="section-block" id="avskaffandet">
+    <p class="section-eyebrow">Kapitel V</p>
+    <h2 class="section-title">Förbudets <span>fall</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-grid">
+      <div class="article-body">
+        <p>Den 5 december 1933 ratificerades det 21:a tillägget till den amerikanska konstitutionen och upphävde det 18:e. Det är det enda tillfälle i USA:s historia att ett konstitutionellt tillägg har upphävts av ett annat. Förbudet var officiellt avslutat.</p>
+        <p>Vägen dit hade gått via Franklin D. Roosevelts valkampanj 1932, som öppet lovade att häva förbudet om han vann. Han vann i jordskred. Redan under sin första månad som president signerade han lagstiftning som legaliserade öl med låg alkoholhalt, och vid årets slut var den fullständiga repealon ett faktum.</p>
+        <p>I Sverige avskaffades motbokssystemet 1955, efter decennier av debatt. Systembolaget skapades som ett statligt monopol avsett att sälja alkohol utan vinstintresse, i kontrollerade former — en unik svensk kompromiss som fortfarande debatteras.</p>
+      </div>
+      <div class="article-body">
+        <div class="pull-quote">
+          <p>"Detta mörka experiment är nu historia. Låt oss lära av misstagen och bygga något bättre."</p>
+          <cite>— Ur en amerikansk ledarartikel, december 1933</cite>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <p class="timeline-year">1932</p>
+            <p class="timeline-event">Roosevelt vinner presidentvalet med löfte om att häva förbudet</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1933</p>
+            <p class="timeline-event">21:a tillägget ratificeras — förbudet avslutas i USA</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1955</p>
+            <p class="timeline-event">Motbokssystemet avskaffas i Sverige — Systembolaget tar över</p>
+          </div>
+          <div class="timeline-item">
+            <p class="timeline-year">1977</p>
+            <p class="timeline-event">Sverige sänker åldersgränsen för Systembolaget till 20 år</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="arv">
+    <p class="section-eyebrow">Epilog</p>
+    <h2 class="section-title">Förbudets <span>arv</span></h2>
+    <div class="title-rule"></div>
+    <div class="article-body" style="max-width:800px;">
+      <p>Förbudets historia är mer än ett historiskt kuriosum — det är en lektion om gränserna för lagstiftning som ett verktyg för moralisk förändring. Man kan förbjuda ett beteende utan att avskaffa viljan att utöva det, och i det tomrum som uppstår frodas ofta något värre.</p>
+      <p>Nykterhetsrörelsen hade rätt i sin diagnos: alkohol orsakade lidande i industrisamhällets undre skikt. Den hade fel på receptet: ett totalt förbud är inte botemedlet. Kriminaliseringen av en djupt inarbetad social vana skapade en svart marknad, korrumperade institutioner och splittrade samhällets lagrespekt.</p>
+      <p>Sverige valde en annan väg — och kanske är det därför svenska folket röstade nej till förbudet redan 1922. Kontrollen snarare än kriminaliseringen, kanalisering snarare än förtryck. Motboken var paternalistisk och ojämlik, men den var pragmatisk. Systembolaget, med alla sina begränsningar, lever kvar som ett levande monument över den svenska samhällsmodellens sätt att hantera kollektiva problem.</p>
+      <p>Och i USA lever minnet av förbudsåren kvar i kulturen — i noir-filmer och jazzklubbar, i Al Capones legendariska status och i speakeasy-nostalgins estetik. Det var tretton år som formade ett lands identitet lika mycket som något krig eller ekonomisk kris.</p>
+    </div>
+    <div class="ornament">✦</div>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <span class="stat-number">13</span>
+        <p class="stat-label">År varade förbudet i USA</p>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">35</span>
+        <p class="stat-label">År varade motbokssystemet i Sverige</p>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-number">21:a</span>
+        <p class="stat-label">Tillägget upphävde förbudet — unikt i USA:s historia</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>FÖRBUDET</strong> — Kampen om alkoholen</p>
+  <p>En historisk informationssida om nykterhetsrörelsens uppgång och fall</p>
+  <p style="margin-top:1rem; font-size:0.7rem; opacity:0.5;">Källor: Historiska arkiv &nbsp;·&nbsp; WCTU &amp; Anti-Saloon League Records &nbsp;·&nbsp; Riksarkivet Sverige</p>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollBar').style.width = pct + '%';
+  });
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section-block').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
